@@ -3,22 +3,67 @@
 \documentclass[headings=standardclasses, numbers=noenddot, a4paper, oneside, fontsize=12pt]{scrartcl}
 
 % Packages
-\usepackage{geometry}
-\usepackage[utf8]{inputenc}
+\usepackage{geometry} % seitenraender
+\usepackage[utf8]{inputenc} % encoding
+\usepackage[final]{listings} % listings
+\usepackage[backend=biber,style=numeric-comp,citestyle=verbose-note,autocite=footnote,labelnumber=true]{biblatex} % bib
+\usepackage[ngerman]{babel} % deutsches Sprachpaket
+\usepackage[onehalfspacing]{setspace} % zeilenabstand
+\usepackage{fancyhdr} % pagestyle sta
+% Optionale Packages
+\usepackage{lipsum} % kann entfernt werden
 
+\bibliography{src}
 
 \title{Vorlage Seminararbeit LaTeX}
 \author{Monika Mustermann}
 \newcommand{\matrnr}{0123456789}
 \newcommand{\classyear}{2020/2023}
 
+% Seitenformat
+\geometry{top=30mm, bottom=35mm, left=30mm,right=25mm}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+% Umdefinition pagestyle plain
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+}
+
 
 % Document
 \begin{document}
 
-    \input{src/titlepage}
+    \input{content/titlepage}
 
-    \bibliography{src}
-    \bibliographystyle{plain}
+    % Seitennummerierung
+    \pagenumbering{Roman}
+
+    \tableofcontents % Inhaltsverzeichnis
+    \clearpage
+
+    % Folgende Löschen, falls kein Inhalt vorhanden ist
+    \listoffigures % Abbildungsverzeichnis
+    \lstlistoflistings % Listings, Code
+    \listoftables % Tabellenverzeichnis
+    \clearpage
+
+    % neue Seite pro Kapitel
+    \let\Section\section
+    \renewcommand\section{\clearpage\Section}
+    % Seitennummerierung
+    \pagenumbering{arabic}
+
+
+
+    \input{content/einleitung}
+    \input{content/chapters/chapter_1}
+    \input{content/chapters/chapter_2}
+    \input{content/fazit}
+
+
+    \clearpage
+    \printbibliography
 
 \end{document}
